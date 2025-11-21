@@ -1,0 +1,73 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+    \PYG{n}{mport} \PYG{n}{matplotlib}\PYG{o}{.}\PYG{n}{pyplot} \PYG{k}{as} \PYG{n}{plt}
+    \PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{numpy}\PYG{+w}{ }\PYG{k}{as}\PYG{+w}{ }\PYG{n+nn}{np}
+
+    \PYG{c+c1}{\PYGZsh{} Исходные данные}
+    \PYG{n}{v\PYGZus{}col} \PYG{o}{=} \PYG{l+m+mi}{10}                          \PYG{c+c1}{\PYGZsh{} м/с (скорость колонны)}
+    \PYG{n}{v\PYGZus{}mot1} \PYG{o}{=} \PYG{l+m+mi}{20}                         \PYG{c+c1}{\PYGZsh{} м/с (скорость мотоциклиста 1)}
+    \PYG{n}{v\PYGZus{}mot2} \PYG{o}{=} \PYG{l+m+mi}{15}                         \PYG{c+c1}{\PYGZsh{} м/с (скорость мотоциклиста 2)}
+    \PYG{n}{L} \PYG{o}{=} \PYG{l+m+mi}{5000}                            \PYG{c+c1}{\PYGZsh{} длина колонны, м}
+
+    \PYG{c+c1}{\PYGZsh{} Максимальное время наблюдений}
+    \PYG{n}{t\PYGZus{}max} \PYG{o}{=} \PYG{n+nb}{max}\PYG{p}{(}\PYG{n}{L}\PYG{o}{/}\PYG{p}{(}\PYG{n}{v\PYGZus{}mot1}\PYG{o}{\PYGZhy{}}\PYG{n}{v\PYGZus{}col}\PYG{p}{)}\PYG{p}{,} \PYG{n}{L}\PYG{o}{/}\PYG{p}{(}\PYG{n}{v\PYGZus{}mot2}\PYG{o}{+}\PYG{n}{v\PYGZus{}col}\PYG{p}{)}\PYG{p}{)} \PYG{o}{*} \PYG{l+m+mf}{1.1}  \PYG{c+c1}{\PYGZsh{} с запасом}
+    \PYG{n}{times} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{linspace}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{n}{t\PYGZus{}max}\PYG{p}{,} \PYG{l+m+mi}{1000}\PYG{p}{)}  \PYG{c+c1}{\PYGZsh{} массив временных моментов}
+
+    \PYG{c+c1}{\PYGZsh{} Положение хвоста и головы колонны}
+    \PYG{n}{pos\PYGZus{}tail} \PYG{o}{=} \PYG{n}{v\PYGZus{}col} \PYG{o}{*} \PYG{n}{times}             \PYG{c+c1}{\PYGZsh{} положение хвоста}
+    \PYG{n}{pos\PYGZus{}head} \PYG{o}{=} \PYG{n}{L} \PYG{o}{+} \PYG{n}{v\PYGZus{}col} \PYG{o}{*} \PYG{n}{times}         \PYG{c+c1}{\PYGZsh{} положение головы}
+
+    \PYG{c+c1}{\PYGZsh{} Положение мотоциклистов:}
+    \PYG{c+c1}{\PYGZsh{} 1\PYGZhy{}й мотоциклист (от хвоста к голове)}
+    \PYG{n}{pos\PYGZus{}mot1} \PYG{o}{=} \PYG{n}{v\PYGZus{}mot1} \PYG{o}{*} \PYG{n}{times}           \PYG{c+c1}{\PYGZsh{} его координата растет быстрее, чем хвост колонны}
+
+    \PYG{c+c1}{\PYGZsh{} 2\PYGZhy{}й мотоциклист (от головы к хвосту)}
+    \PYG{n}{pos\PYGZus{}mot2} \PYG{o}{=} \PYG{n}{L} \PYG{o}{\PYGZhy{}} \PYG{n}{v\PYGZus{}mot2} \PYG{o}{*} \PYG{n}{times}       \PYG{c+c1}{\PYGZsh{} его координата снижается от L}
+
+    \PYG{c+c1}{\PYGZsh{} Временные точки пересечения}
+    \PYG{n}{intersect\PYGZus{}time1} \PYG{o}{=} \PYG{n}{L} \PYG{o}{/} \PYG{p}{(}\PYG{n}{v\PYGZus{}mot1} \PYG{o}{\PYGZhy{}} \PYG{n}{v\PYGZus{}col}\PYG{p}{)}  \PYG{c+c1}{\PYGZsh{} Пересечение мотоциклиста 1 с головой колонны}
+    \PYG{n}{intersect\PYGZus{}time2} \PYG{o}{=} \PYG{n}{L} \PYG{o}{/} \PYG{p}{(}\PYG{n}{v\PYGZus{}mot2} \PYG{o}{+} \PYG{n}{v\PYGZus{}col}\PYG{p}{)}  \PYG{c+c1}{\PYGZsh{} Пересечение мотоциклиста 2 с хвостом колонны}
+
+    \PYG{c+c1}{\PYGZsh{} Пересечение двух мотоциклистов}
+    \PYG{n}{intersect\PYGZus{}time3} \PYG{o}{=} \PYG{n}{L} \PYG{o}{/} \PYG{p}{(}\PYG{n}{v\PYGZus{}mot1} \PYG{o}{+} \PYG{n}{v\PYGZus{}mot2}\PYG{p}{)}  \PYG{c+c1}{\PYGZsh{} Пересечение мотоциклистов друг с другом}
+
+    \PYG{c+c1}{\PYGZsh{} Выведем полученные результаты}
+    \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{РЕЗУЛЬТАТЫ РАСЧЁТА:}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+    \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{\PYGZhy{}}\PYG{l+s+s2}{\PYGZdq{}} \PYG{o}{*} \PYG{l+m+mi}{50}\PYG{p}{)}
+    \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{ПЕРЕСЕЧЕНИЯ:}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+    \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{1. Мотоциклист 1 пересекает голову колонны через: }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{intersect\PYGZus{}time1}\PYG{l+s+si}{:}\PYG{l+s+s2}{.2f}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ секунды.}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+    \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{2. Мотоциклист 2 пересекает хвост колонны через: }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{intersect\PYGZus{}time2}\PYG{l+s+si}{:}\PYG{l+s+s2}{.2f}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ секунды.}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+    \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{3. Два мотоциклиста встречаются друг с другом через: }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{intersect\PYGZus{}time3}\PYG{l+s+si}{:}\PYG{l+s+s2}{.2f}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ секунды.}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+
+    \PYG{c+c1}{\PYGZsh{} Построим график}
+    \PYG{n}{plt}\PYG{o}{.}\PYG{n}{figure}\PYG{p}{(}\PYG{n}{figsize}\PYG{o}{=}\PYG{p}{(}\PYG{l+m+mi}{10}\PYG{p}{,} \PYG{l+m+mi}{6}\PYG{p}{)}\PYG{p}{)}          \PYG{c+c1}{\PYGZsh{} увеличим размеры графика}
+
+    \PYG{c+c1}{\PYGZsh{} Основная часть графика}
+    \PYG{n}{plt}\PYG{o}{.}\PYG{n}{plot}\PYG{p}{(}\PYG{n}{times}\PYG{p}{,} \PYG{n}{pos\PYGZus{}tail}\PYG{p}{,} \PYG{n}{label}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{Хвост колонны}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{color}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{blue}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{linewidth}\PYG{o}{=}\PYG{l+m+mi}{2}\PYG{p}{)}
+    \PYG{n}{plt}\PYG{o}{.}\PYG{n}{plot}\PYG{p}{(}\PYG{n}{times}\PYG{p}{,} \PYG{n}{pos\PYGZus{}head}\PYG{p}{,} \PYG{n}{label}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{Голова колонны}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{color}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{green}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{linewidth}\PYG{o}{=}\PYG{l+m+mi}{2}\PYG{p}{)}
+    \PYG{n}{plt}\PYG{o}{.}\PYG{n}{plot}\PYG{p}{(}\PYG{n}{times}\PYG{p}{,} \PYG{n}{pos\PYGZus{}mot1}\PYG{p}{,} \PYG{n}{label}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{Мотоциклист 1}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{color}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{orange}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{linewidth}\PYG{o}{=}\PYG{l+m+mi}{2}\PYG{p}{)}
+    \PYG{n}{plt}\PYG{o}{.}\PYG{n}{plot}\PYG{p}{(}\PYG{n}{times}\PYG{p}{,} \PYG{n}{pos\PYGZus{}mot2}\PYG{p}{,} \PYG{n}{label}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{Мотоциклист 2}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{color}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{purple}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{linewidth}\PYG{o}{=}\PYG{l+m+mi}{2}\PYG{p}{)}
+
+    \PYG{c+c1}{\PYGZsh{} Проводим пунктирные линии с точками пересечения на ось времени}
+    \PYG{n}{plt}\PYG{o}{.}\PYG{n}{vlines}\PYG{p}{(}\PYG{n}{intersect\PYGZus{}time1}\PYG{p}{,} \PYG{n}{ymin}\PYG{o}{=}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{100}\PYG{p}{,} \PYG{n}{ymax}\PYG{o}{=}\PYG{n}{np}\PYG{o}{.}\PYG{n}{interp}\PYG{p}{(}\PYG{n}{intersect\PYGZus{}time1}\PYG{p}{,} \PYG{n}{times}\PYG{p}{,} \PYG{n}{pos\PYGZus{}head}\PYG{p}{)}\PYG{p}{,} \PYG{n}{colors}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{black}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{linestyles}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{dashed}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{)}
+    \PYG{n}{plt}\PYG{o}{.}\PYG{n}{text}\PYG{p}{(}\PYG{n}{intersect\PYGZus{}time1}\PYG{p}{,} \PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{200}\PYG{p}{,} \PYG{l+s+sa}{f}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{intersect\PYGZus{}time1}\PYG{l+s+si}{:}\PYG{l+s+s1}{.2f}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{ha}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{center}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{va}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{bottom}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{fontweight}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{bold}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{)}
+
+    \PYG{n}{plt}\PYG{o}{.}\PYG{n}{vlines}\PYG{p}{(}\PYG{n}{intersect\PYGZus{}time2}\PYG{p}{,} \PYG{n}{ymin}\PYG{o}{=}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{100}\PYG{p}{,} \PYG{n}{ymax}\PYG{o}{=}\PYG{n}{np}\PYG{o}{.}\PYG{n}{interp}\PYG{p}{(}\PYG{n}{intersect\PYGZus{}time2}\PYG{p}{,} \PYG{n}{times}\PYG{p}{,} \PYG{n}{pos\PYGZus{}tail}\PYG{p}{)}\PYG{p}{,} \PYG{n}{colors}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{black}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{linestyles}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{dashed}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{)}
+    \PYG{n}{plt}\PYG{o}{.}\PYG{n}{text}\PYG{p}{(}\PYG{n}{intersect\PYGZus{}time2}\PYG{p}{,} \PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{200}\PYG{p}{,} \PYG{l+s+sa}{f}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{intersect\PYGZus{}time2}\PYG{l+s+si}{:}\PYG{l+s+s1}{.2f}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{ha}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{center}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{va}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{bottom}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{fontweight}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{bold}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{)}
+
+    \PYG{c+c1}{\PYGZsh{} Третья линия — пересечение мотоциклистов}
+    \PYG{n}{plt}\PYG{o}{.}\PYG{n}{vlines}\PYG{p}{(}\PYG{n}{intersect\PYGZus{}time3}\PYG{p}{,} \PYG{n}{ymin}\PYG{o}{=}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{100}\PYG{p}{,} \PYG{n}{ymax}\PYG{o}{=}\PYG{n}{np}\PYG{o}{.}\PYG{n}{interp}\PYG{p}{(}\PYG{n}{intersect\PYGZus{}time3}\PYG{p}{,} \PYG{n}{times}\PYG{p}{,} \PYG{n}{pos\PYGZus{}mot1}\PYG{p}{)}\PYG{p}{,} \PYG{n}{colors}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{black}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{linestyles}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{dashed}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{)}
+    \PYG{n}{plt}\PYG{o}{.}\PYG{n}{text}\PYG{p}{(}\PYG{n}{intersect\PYGZus{}time3}\PYG{p}{,} \PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{200}\PYG{p}{,} \PYG{l+s+sa}{f}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{intersect\PYGZus{}time3}\PYG{l+s+si}{:}\PYG{l+s+s1}{.2f}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{ha}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{center}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{va}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{bottom}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{fontweight}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{bold}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{)}
+
+    \PYG{c+c1}{\PYGZsh{} Оформим график}
+    \PYG{n}{plt}\PYG{o}{.}\PYG{n}{xlabel}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{Время (с)}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{fontsize}\PYG{o}{=}\PYG{l+m+mi}{12}\PYG{p}{)}
+    \PYG{n}{plt}\PYG{o}{.}\PYG{n}{ylabel}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{Положение (метры)}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{fontsize}\PYG{o}{=}\PYG{l+m+mi}{12}\PYG{p}{)}
+    \PYG{n}{plt}\PYG{o}{.}\PYG{n}{title}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{Движение мотоциклистов и концов колонны}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{fontsize}\PYG{o}{=}\PYG{l+m+mi}{14}\PYG{p}{)}
+    \PYG{n}{plt}\PYG{o}{.}\PYG{n}{legend}\PYG{p}{(}\PYG{n}{fontsize}\PYG{o}{=}\PYG{l+m+mi}{10}\PYG{p}{)}
+    \PYG{n}{plt}\PYG{o}{.}\PYG{n}{grid}\PYG{p}{(}\PYG{k+kc}{True}\PYG{p}{)}
+
+    \PYG{c+c1}{\PYGZsh{} Масштаб по оси Y увеличим до 11000 метров}
+    \PYG{n}{plt}\PYG{o}{.}\PYG{n}{ylim}\PYG{p}{(}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{100}\PYG{p}{,} \PYG{l+m+mi}{11000}\PYG{p}{)}
+
+    \PYG{c+c1}{\PYGZsh{} Отобразим обновлённую версию графика}
+    \PYG{n}{plt}\PYG{o}{.}\PYG{n}{show}\PYG{p}{(}\PYG{p}{)}
+\end{MintedVerbatim}

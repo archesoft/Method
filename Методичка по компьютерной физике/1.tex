@@ -1,0 +1,115 @@
+\documentclass[11pt,a4paper]{report}
+\usepackage{tcolorbox}
+\tcbuselibrary{minted,breakable,xparse,skins}
+
+\definecolor{bg}{gray}{0.95}
+\DeclareTCBListing{mintedbox}{O{}m!O{}}{%
+  breakable=true,
+  listing engine=minted,
+  listing only,
+  minted language=#2,
+  minted style=default,
+  minted options={%
+    linenos,
+    gobble=0,
+    breaklines=true,
+    breakafter=,,
+    fontsize=\small,
+    numbersep=8pt,
+    #1},
+  boxsep=0pt,
+  left skip=0pt,
+  right skip=0pt,
+  left=25pt,
+  right=0pt,
+  top=3pt,
+  bottom=3pt,
+  arc=5pt,
+  leftrule=0pt,
+  rightrule=0pt,
+  bottomrule=2pt,
+  toprule=2pt,
+  colback=bg,
+  colframe=orange!70,
+  enhanced,
+  overlay={%
+    \begin{tcbclipinterior}
+    \fill[orange!20!white] (frame.south west) rectangle ([xshift=20pt]frame.north west);
+    \end{tcbclipinterior}},
+  #3}
+\begin{document}
+\begin{mintedbox}{python}
+    mport matplotlib.pyplot as plt
+    import numpy as np
+    
+    # Исходные данные
+    v_col = 10                          # м/с (скорость колонны)
+    v_mot1 = 20                         # м/с (скорость мотоциклиста 1)
+    v_mot2 = 15                         # м/с (скорость мотоциклиста 2)
+    L = 5000                            # длина колонны, м
+    
+    # Максимальное время наблюдений
+    t_max = max(L/(v_mot1-v_col), L/(v_mot2+v_col)) * 1.1  # с запасом
+    times = np.linspace(0, t_max, 1000)  # массив временных моментов
+    
+    # Положение хвоста и головы колонны
+    pos_tail = v_col * times             # положение хвоста
+    pos_head = L + v_col * times         # положение головы
+    
+    # Положение мотоциклистов:
+    # 1-й мотоциклист (от хвоста к голове)
+    pos_mot1 = v_mot1 * times           # его координата растет быстрее, чем хвост колонны
+    
+    # 2-й мотоциклист (от головы к хвосту)
+    pos_mot2 = L - v_mot2 * times       # его координата снижается от L
+    
+    # Временные точки пересечения
+    intersect_time1 = L / (v_mot1 - v_col)  # Пересечение мотоциклиста 1 с головой колонны
+    intersect_time2 = L / (v_mot2 + v_col)  # Пересечение мотоциклиста 2 с хвостом колонны
+    
+    # Пересечение двух мотоциклистов
+    intersect_time3 = L / (v_mot1 + v_mot2)  # Пересечение мотоциклистов друг с другом
+    
+    # Выведем полученные результаты
+    print("\nРЕЗУЛЬТАТЫ РАСЧЁТА:")
+    print("-" * 50)
+    print(f"ПЕРЕСЕЧЕНИЯ:")
+    print(f"1. Мотоциклист 1 пересекает голову колонны через: {intersect_time1:.2f} секунды.")
+    print(f"2. Мотоциклист 2 пересекает хвост колонны через: {intersect_time2:.2f} секунды.")
+    print(f"3. Два мотоциклиста встречаются друг с другом через: {intersect_time3:.2f} секунды.")
+    
+    # Построим график
+    plt.figure(figsize=(10, 6))          # увеличим размеры графика
+    
+    # Основная часть графика
+    plt.plot(times, pos_tail, label='Хвост колонны', color='blue', linewidth=2)
+    plt.plot(times, pos_head, label='Голова колонны', color='green', linewidth=2)
+    plt.plot(times, pos_mot1, label='Мотоциклист 1', color='orange', linewidth=2)
+    plt.plot(times, pos_mot2, label='Мотоциклист 2', color='purple', linewidth=2)
+    
+    # Проводим пунктирные линии с точками пересечения на ось времени
+    plt.vlines(intersect_time1, ymin=-100, ymax=np.interp(intersect_time1, times, pos_head), colors='black', linestyles='dashed')
+    plt.text(intersect_time1, -200, f'{intersect_time1:.2f}', ha='center', va='bottom', fontweight='bold')
+    
+    plt.vlines(intersect_time2, ymin=-100, ymax=np.interp(intersect_time2, times, pos_tail), colors='black', linestyles='dashed')
+    plt.text(intersect_time2, -200, f'{intersect_time2:.2f}', ha='center', va='bottom', fontweight='bold')
+    
+    # Третья линия — пересечение мотоциклистов
+    plt.vlines(intersect_time3, ymin=-100, ymax=np.interp(intersect_time3, times, pos_mot1), colors='black', linestyles='dashed')
+    plt.text(intersect_time3, -200, f'{intersect_time3:.2f}', ha='center', va='bottom', fontweight='bold')
+    
+    # Оформим график
+    plt.xlabel('Время (с)', fontsize=12)
+    plt.ylabel('Положение (метры)', fontsize=12)
+    plt.title('Движение мотоциклистов и концов колонны', fontsize=14)
+    plt.legend(fontsize=10)
+    plt.grid(True)
+    
+    # Масштаб по оси Y увеличим до 11000 метров
+    plt.ylim(-100, 11000)
+    
+    # Отобразим обновлённую версию графика
+    plt.show()
+\end{mintedbox}
+
+\end{document}

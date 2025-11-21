@@ -1,0 +1,11 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+		\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{math}
+		
+		\PYG{c+c1}{\PYGZsh{} Радиус круга}
+		\PYG{n}{radius} \PYG{o}{=} \PYG{l+m+mi}{5}
+		
+		\PYG{c+c1}{\PYGZsh{} Площадь круга}
+		\PYG{n}{area} \PYG{o}{=} \PYG{n}{math}\PYG{o}{.}\PYG{n}{pi} \PYG{o}{*} \PYG{n}{radius} \PYG{o}{*}\PYG{o}{*} \PYG{l+m+mi}{2}
+		
+		\PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Площадь круга с радиусом }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{radius}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ см составляет примерно }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{area}\PYG{l+s+si}{:}\PYG{l+s+s2}{.2f}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ квадратных сантиметров.}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+\end{MintedVerbatim}
